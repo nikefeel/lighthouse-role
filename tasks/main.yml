@@ -1,0 +1,32 @@
+- name: Install epel on lighthouse
+  become: true
+  ansible.builtin.yum:
+   name: epel-release
+   state: present
+- name: Install nginx on lighthouse
+  become: true
+  ansible.builtin.yum:
+   name: nginx
+   state: present
+- name: Install git on lighthouse
+  become: true
+  ansible.builtin.yum:
+   name: git
+   state: present
+- name: Lighthouse git clone
+  become: true
+  ansible.builtin.git:
+    repo: "{{ lighthouse_git }}"
+    version: master
+    dest: "{{ lighthouse_dest }}"
+- name: Lighthouse nginx config
+  become: true
+  ansible.builtin.template:
+    mode: '644'
+    src: nginx_lighthouse.j2
+    dest: "/etc/nginx/nginx.conf"
+- name: Lighthouse selinux
+  become: true
+  ansible.builtin.command: chcon -R -t httpd_sys_content_t /var/www/lighthouse
+  notify:
+    - Reload nginx

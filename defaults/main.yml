@@ -1,0 +1,8 @@
+lighthouse:
+  hosts:
+    lighthouse:
+      ansible_host: 158.160.82.222
+      ansible_connection: ssh
+      ansible_user: feel
+
+nginx_user_name: nginx

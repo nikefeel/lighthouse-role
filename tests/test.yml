@@ -1,0 +1,5 @@
+---
+- hosts: lighthouse
+  remote_user: feel
+  roles:
+    - lighthouse-role
